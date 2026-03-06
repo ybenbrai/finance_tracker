@@ -92,6 +92,20 @@ src/
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 
+## Deployment (GitHub Pages)
+
+This project is configured to deploy automatically to GitHub Pages whenever you push to `main`.
+
+Expected live URL:
+
+`https://ybenbrai.github.io/finance_tracker/`
+
+One-time setup in GitHub repository settings:
+
+1. Open `Settings` -> `Pages`.
+2. Under `Build and deployment`, set `Source` to `GitHub Actions`.
+3. Push to `main` (or re-run the `Deploy to GitHub Pages` workflow in the Actions tab).
+
 ## License
 
 MIT
