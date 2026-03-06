@@ -28,7 +28,7 @@ export default function IconPicker({ value, onChange, options }) {
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        className="inline-flex h-11 w-full items-center justify-center rounded-lg border border-slate-700 bg-slate-950 text-lg text-slate-100 outline-none ring-teal-400/40 focus:ring"
+        className="inline-flex h-11 w-full items-center justify-center rounded-lg border border-slate-600 bg-slate-900 text-lg text-slate-100 outline-none ring-indigo-400/40 focus:ring"
         aria-label="Choose icon"
         title="Choose icon"
       >
@@ -42,7 +42,7 @@ export default function IconPicker({ value, onChange, options }) {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search icons"
-            className="mb-2 w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none ring-teal-400/40 focus:ring"
+            className="mb-2 w-full rounded-md border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none ring-indigo-400/40 focus:ring"
           />
 
           <div className="grid max-h-48 grid-cols-7 gap-1 overflow-y-auto">
@@ -54,7 +54,7 @@ export default function IconPicker({ value, onChange, options }) {
                 title={item.keywords}
                 className={`rounded-md p-2 text-lg transition ${
                   item.icon === value
-                    ? 'bg-teal-500/20 text-teal-300'
+                    ? 'bg-indigo-500/20 text-indigo-200'
                     : 'text-slate-200 hover:bg-slate-800'
                 }`}
               >

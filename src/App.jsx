@@ -1040,7 +1040,7 @@ function App() {
                     payload: event.target.value,
                   })
                 }
-                className="ml-2 rounded-lg border border-slate-700 bg-slate-950 px-2 py-1 text-sm text-slate-100"
+                className="ml-2 rounded-lg border border-slate-600 bg-slate-900 px-2 py-1 text-sm text-slate-100"
               >
                 {CURRENCY_OPTIONS.map((option) => (
                   <option key={option.code} value={option.code}>
@@ -1059,7 +1059,7 @@ function App() {
                     payload: event.target.value,
                   })
                 }
-                className="ml-2 rounded-lg border border-slate-700 bg-slate-950 px-2 py-1 text-sm text-slate-100"
+                className="ml-2 rounded-lg border border-slate-600 bg-slate-900 px-2 py-1 text-sm text-slate-100"
               >
                 {LANGUAGE_OPTIONS.map((option) => (
                   <option key={option.code} value={option.code}>
@@ -1084,7 +1084,7 @@ function App() {
                       payload: value,
                     })
                   }
-                  className="h-9 w-36 rounded-lg border border-slate-700 bg-slate-950 pl-10 pr-3 text-sm text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                  className="h-9 w-36 rounded-lg border border-slate-600 bg-slate-900 pl-10 pr-3 text-sm text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                 />
               </div>
             </label>
@@ -1143,7 +1143,7 @@ function App() {
                             },
                           })
                         }
-                        className="w-full rounded-lg border border-slate-700 bg-slate-950 pl-10 pr-3 py-2 text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                        className="w-full rounded-lg border border-slate-600 bg-slate-900 pl-10 pr-3 py-2 text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                       />
                     </div>
                   </div>
@@ -1168,7 +1168,7 @@ function App() {
                             },
                           })
                         }
-                        className="w-full rounded-lg border border-slate-700 bg-slate-950 pl-10 pr-3 py-2 text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                        className="w-full rounded-lg border border-slate-600 bg-slate-900 pl-10 pr-3 py-2 text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                       />
                     </div>
                   </div>
@@ -1222,7 +1222,7 @@ function App() {
                     onChange={(event) => setNewCategory(event.target.value)}
                     placeholder={labels.categoryNamePlaceholder}
                     aria-label={labels.categoryNamePlaceholder}
-                    className="h-11 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 text-sm text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                    className="h-11 w-full rounded-lg border border-slate-600 bg-slate-900 px-3 text-sm text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                   />
                   <IconPicker
                     value={newCategoryIcon}
@@ -1233,11 +1233,11 @@ function App() {
                     value={newCategoryLabel}
                     onChange={(event) => setNewCategoryLabel(event.target.value)}
                     placeholder={labels.labelOptionalPlaceholder}
-                    className="h-11 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 text-sm text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                    className="h-11 w-full rounded-lg border border-slate-600 bg-slate-900 px-3 text-sm text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                   />
                   <button
                     onClick={handleAddCustomCategory}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-teal-500 text-lg font-semibold text-slate-950 hover:bg-teal-400"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-500 text-lg font-semibold text-indigo-50 hover:bg-indigo-400"
                     aria-label={labels.addCategory}
                     title={labels.addCategory}
                   >
@@ -1321,7 +1321,7 @@ function App() {
                                   },
                                 })
                               }
-                              className="h-10 w-full rounded-lg border border-slate-700 bg-slate-950 pl-10 pr-3 text-sm text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                              className="h-10 w-full rounded-lg border border-slate-600 bg-slate-900 pl-10 pr-3 text-sm text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                             />
                           </div>
                         </div>
@@ -1346,7 +1346,7 @@ function App() {
                                   },
                                 })
                               }
-                              className="h-10 w-full rounded-lg border border-slate-700 bg-slate-950 pl-10 pr-3 text-sm text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                              className="h-10 w-full rounded-lg border border-slate-600 bg-slate-900 pl-10 pr-3 text-sm text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                             />
                           </div>
                         </div>
@@ -1376,14 +1376,14 @@ function App() {
                                   },
                                 })
                               }
-                              className="h-10 w-full rounded-lg border border-slate-700 bg-slate-950 pl-10 pr-3 text-sm text-slate-100 outline-none ring-teal-400/40 focus:ring"
+                              className="h-10 w-full rounded-lg border border-slate-600 bg-slate-900 pl-10 pr-3 text-sm text-slate-100 outline-none ring-indigo-400/40 focus:ring"
                             />
                           </div>
                         </div>
 
                         <div className="self-center text-right">
                           <p className="text-[11px] text-slate-400">{labels.usedThisMonth}</p>
-                          <p className="text-sm font-semibold text-teal-300">
+                          <p className="text-sm font-semibold text-cyan-300">
                             {formatCurrency(benefitMonth?.used ?? 0, state.currency, selectedLocale)}
                           </p>
                         </div>
@@ -1428,7 +1428,7 @@ function App() {
                       payload: event.target.value,
                     })
                   }
-                  className="ml-2 w-14 rounded-md border border-slate-700 bg-slate-950 px-2 py-1 text-slate-100"
+                  className="ml-2 w-14 rounded-md border border-slate-600 bg-slate-900 px-2 py-1 text-slate-100"
                 />
               </label>
             </div>
@@ -1459,7 +1459,7 @@ function App() {
                         </td>
                         <td
                           className={`py-2 ${
-                            month.remaining >= 0 ? 'text-teal-300' : 'text-rose-300'
+                            month.remaining >= 0 ? 'text-cyan-300' : 'text-rose-300'
                           }`}
                         >
                           {formatCurrency(month.remaining, state.currency, selectedLocale)}

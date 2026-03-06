@@ -9,7 +9,7 @@ export default function SummaryCards({
   modeLabel,
   labels,
 }) {
-  const remainingColor = remaining >= 0 ? 'text-teal-300' : 'text-rose-300'
+  const remainingColor = remaining >= 0 ? 'text-cyan-300' : 'text-rose-300'
 
   return (
     <div className="grid gap-3 sm:grid-cols-3">

@@ -18,7 +18,7 @@ export default function MonthTabs({
             key={month.id}
             className={`flex items-center gap-1 rounded-xl px-2 py-1 text-sm transition ${
               isActive
-                ? 'bg-teal-500 text-slate-950'
+                ? 'bg-indigo-500 text-slate-50'
                 : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
             }`}
           >
@@ -44,7 +44,7 @@ export default function MonthTabs({
       })}
       <button
         onClick={onAddMonth}
-        className="inline-flex items-center gap-2 rounded-xl border border-teal-400/60 px-3 py-2 text-sm text-teal-300 hover:bg-teal-500/10"
+        className="inline-flex items-center gap-2 rounded-xl border border-indigo-400/60 px-3 py-2 text-sm text-indigo-200 hover:bg-indigo-500/15"
       >
         <PlusIcon className="h-4 w-4" /> {labels.addMonth}
       </button>

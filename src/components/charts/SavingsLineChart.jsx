@@ -35,7 +35,7 @@ export default function SavingsLineChart({ actualRows, forecastRows, currency, l
             type="monotone"
             dataKey="actualSavings"
             name={labels.actual}
-            stroke="#14b8a6"
+            stroke="#7dd3fc"
             strokeWidth={2}
             dot={false}
           />

@@ -17,17 +17,17 @@ export default function ImportExportPanel({
       <div className="mt-3 flex flex-wrap gap-2">
         <button
           onClick={onExportJson}
-          className="inline-flex items-center gap-2 rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200 hover:bg-slate-700"
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-900/40 px-3 py-2 text-sm text-slate-200 hover:bg-slate-800"
         >
           <DownloadIcon className="h-4 w-4" /> {labels.exportJson}
         </button>
         <button
           onClick={onExportCsv}
-          className="inline-flex items-center gap-2 rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200 hover:bg-slate-700"
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-900/40 px-3 py-2 text-sm text-slate-200 hover:bg-slate-800"
         >
           <DownloadIcon className="h-4 w-4" /> {labels.exportCsv}
         </button>
-        <label className="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-teal-400/60 px-3 py-2 text-sm text-teal-300 hover:bg-teal-500/10">
+        <label className="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-indigo-400/70 bg-indigo-500 px-3 py-2 text-sm font-medium text-indigo-50 hover:bg-indigo-400">
           <UploadIcon className="h-4 w-4" /> {labels.importJsonCsv}
           <input
             type="file"
