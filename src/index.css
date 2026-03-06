@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  font-family: 'Manrope', 'Space Grotesk', 'Segoe UI', sans-serif;
+  color: #f8fafc;
+  background: #020617;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+a,
+summary,
+[role='button'],
+select,
+input[type='checkbox'],
+input[type='radio'],
+label.cursor-pointer {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
+/* Mirror common LTR utility-based spacing/alignment when document direction is RTL. */
+html[dir='rtl'] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+html[dir='rtl'] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+html[dir='rtl'] .left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+html[dir='rtl'] .pl-10 {
+  padding-left: 0.75rem;
+  padding-right: 2.5rem;
+}
+
+html[dir='rtl'] .pr-3 {
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+html[dir='rtl'] .text-left {
+  text-align: right;
+}
