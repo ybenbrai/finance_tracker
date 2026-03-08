@@ -77,6 +77,14 @@ export const LANGUAGE_OPTIONS = [
   { code: 'ru', label: 'Russian', locale: 'ru-RU' },
 ]
 
+export const THEME_OPTIONS = [
+  { code: 'midnight', label: 'Midnight' },
+  { code: 'ocean', label: 'Ocean' },
+  { code: 'forest', label: 'Forest' },
+  { code: 'sunset', label: 'Sunset' },
+  { code: 'graphite', label: 'Graphite' },
+]
+
 export const MONTH_NAMES = [
   'Jan',
   'Feb',

@@ -9,6 +9,7 @@ import BenefitTrendLineChart from './components/charts/BenefitTrendLineChart'
 import ImportExportPanel from './components/ImportExportPanel'
 import NumberInput from './components/NumberInput'
 import IconPicker from './components/IconPicker'
+import ConfirmModal from './components/ConfirmModal'
 import {
   BENEFIT_WALLETS,
   CATEGORY_ICON_OPTIONS,
@@ -17,6 +18,7 @@ import {
   DEFAULT_FORECAST_HORIZON,
   LANGUAGE_OPTIONS,
   STORAGE_KEY,
+  THEME_OPTIONS,
 } from './constants'
 import { addMonths, monthIdFromDate, monthLabelFromId } from './utils/date'
 import { CURRENCY_OPTIONS, formatCurrency, toNumber } from './utils/format'
@@ -119,6 +121,7 @@ function createDefaultState() {
     includeBenefitsInNet: false,
     openingBalance: 0,
     language: 'en',
+    theme: 'midnight',
     forecastHorizon: DEFAULT_FORECAST_HORIZON,
     currency: 'USD',
   }
@@ -188,6 +191,9 @@ function normalizeState(rawState) {
     language: LANGUAGE_OPTIONS.some((option) => option.code === rawState?.language)
       ? rawState.language
       : 'en',
+    theme: THEME_OPTIONS.some((option) => option.code === rawState?.theme)
+      ? rawState.theme
+      : 'midnight',
     currency: CURRENCY_OPTIONS.some((option) => option.code === rawState?.currency)
       ? rawState.currency
       : 'USD',
@@ -452,6 +458,14 @@ function financeReducer(state, action) {
         language: LANGUAGE_OPTIONS.some((option) => option.code === action.payload)
           ? action.payload
           : state.language,
+      }
+
+    case 'SET_THEME':
+      return {
+        ...state,
+        theme: THEME_OPTIONS.some((option) => option.code === action.payload)
+          ? action.payload
+          : state.theme,
       }
 
     case 'TOGGLE_INCLUDE_BENEFITS':
@@ -776,6 +790,13 @@ function csvToAppState(csvText) {
 
 function App() {
   const [state, dispatch] = useReducer(financeReducer, undefined, createInitialState)
+  const [activePage, setActivePage] = useState('tracker')
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    title: '',
+    message: '',
+    onConfirm: null,
+  })
   const [newCategory, setNewCategory] = useState('')
   const [newCategoryIcon, setNewCategoryIcon] = useState('✨')
   const [newCategoryLabel, setNewCategoryLabel] = useState('')
@@ -985,16 +1006,24 @@ function App() {
     }
 
     const monthName = monthLabelFromId(month.id, selectedLocale)
-    if (window.confirm(labels.confirmDeleteMonth(monthName))) {
-      dispatch({ type: 'REMOVE_MONTH', payload: monthId })
-    }
+    setConfirmModal({
+      open: true,
+      title: labels.confirmActionTitle,
+      message: labels.confirmDeleteMonth(monthName),
+      onConfirm: () => dispatch({ type: 'REMOVE_MONTH', payload: monthId }),
+    })
   }
 
   const handleResetData = () => {
-    if (window.confirm(labels.confirmReset)) {
-      localStorage.removeItem(STORAGE_KEY)
-      dispatch({ type: 'RESET_ALL_DATA' })
-    }
+    setConfirmModal({
+      open: true,
+      title: labels.confirmActionTitle,
+      message: labels.confirmReset,
+      onConfirm: () => {
+        localStorage.removeItem(STORAGE_KEY)
+        dispatch({ type: 'RESET_ALL_DATA' })
+      },
+    })
   }
 
   const handleDeleteCategory = (category) => {
@@ -1004,9 +1033,12 @@ function App() {
     }
 
     const label = titleCase(category)
-    if (window.confirm(labels.confirmDeleteCategory(label))) {
-      dispatch({ type: 'REMOVE_CATEGORY', payload: category })
-    }
+    setConfirmModal({
+      open: true,
+      title: labels.confirmActionTitle,
+      message: labels.confirmDeleteCategory(label),
+      onConfirm: () => dispatch({ type: 'REMOVE_CATEGORY', payload: category }),
+    })
   }
 
   const currencyLabel =
@@ -1019,10 +1051,14 @@ function App() {
     document.documentElement.dir = state.language === 'ar' ? 'rtl' : 'ltr'
   }, [state.language])
 
+  useEffect(() => {
+    document.documentElement.dataset.theme = state.theme
+  }, [state.theme])
+
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-6 text-slate-100 sm:px-6 lg:px-10">
       <div className="mx-auto w-full max-w-7xl space-y-4">
-        <header className="rounded-3xl border border-slate-700/80 bg-gradient-to-r from-slate-900 to-slate-800 p-5">
+        <header className="app-header-card rounded-3xl border border-slate-700/80 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{labels.appTitle}</h1>
@@ -1069,6 +1105,25 @@ function App() {
               </select>
             </label>
             <label className="text-sm text-slate-300">
+              {labels.theme}
+              <select
+                value={state.theme}
+                onChange={(event) =>
+                  dispatch({
+                    type: 'SET_THEME',
+                    payload: event.target.value,
+                  })
+                }
+                className="ml-2 rounded-lg border border-slate-600 bg-slate-900 px-2 py-1 text-sm text-slate-100"
+              >
+                {THEME_OPTIONS.map((option) => (
+                  <option key={option.code} value={option.code}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="text-sm text-slate-300">
               {labels.startingSavings}
               <div className="relative ml-2 inline-block align-middle">
                 <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-xs text-slate-400">
@@ -1089,36 +1144,61 @@ function App() {
               </div>
             </label>
           </div>
+
+          <div className="mt-4 inline-flex rounded-xl border border-slate-700 bg-slate-900/60 p-1">
+            <button
+              onClick={() => setActivePage('tracker')}
+              className={`rounded-lg px-3 py-1.5 text-sm transition ${
+                activePage === 'tracker'
+                  ? 'bg-indigo-500 text-slate-50'
+                  : 'text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              {labels.trackerPage}
+            </button>
+            <button
+              onClick={() => setActivePage('data')}
+              className={`rounded-lg px-3 py-1.5 text-sm transition ${
+                activePage === 'data'
+                  ? 'bg-indigo-500 text-slate-50'
+                  : 'text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              {labels.dataPage}
+            </button>
+          </div>
         </header>
 
-        <MonthTabs
-          months={displayActualRows}
-          activeMonthId={state.activeMonthId}
-          onSelectMonth={(monthId) =>
-            dispatch({
-              type: 'SET_ACTIVE_MONTH',
-              payload: monthId,
-            })
-          }
-          onAddMonth={() => dispatch({ type: 'ADD_MONTH' })}
-          onDuplicateMonth={() => dispatch({ type: 'DUPLICATE_ACTIVE_MONTH' })}
-          onDeleteMonth={handleDeleteMonth}
-          labels={labels}
-        />
-
-        {activeMonth ? (
+        {activePage === 'tracker' ? (
           <>
-            <SummaryCards
-              totalExpenses={activeMonth.totalExpenses}
-              remaining={activeMonth.remaining}
-              cumulative={activeMonth.cumulative}
-              currency={state.currency}
-              locale={selectedLocale}
-              modeLabel={modeLabel}
+            <MonthTabs
+              months={displayActualRows}
+              activeMonthId={state.activeMonthId}
+              onSelectMonth={(monthId) =>
+                dispatch({
+                  type: 'SET_ACTIVE_MONTH',
+                  payload: monthId,
+                })
+              }
+              onAddMonth={() => dispatch({ type: 'ADD_MONTH' })}
+              onDuplicateMonth={() => dispatch({ type: 'DUPLICATE_ACTIVE_MONTH' })}
+              onDeleteMonth={handleDeleteMonth}
               labels={labels}
             />
 
-            <section className="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
+            {activeMonth ? (
+              <>
+                <SummaryCards
+                  totalExpenses={activeMonth.totalExpenses}
+                  remaining={activeMonth.remaining}
+                  cumulative={activeMonth.cumulative}
+                  currency={state.currency}
+                  locale={selectedLocale}
+                  modeLabel={modeLabel}
+                  labels={labels}
+                />
+
+                <section className="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
               <div className="rounded-2xl border border-slate-700 bg-slate-900/80 p-4">
                 <h2 className="text-sm font-semibold text-slate-100">{labels.monthlyInputs}</h2>
 
@@ -1247,13 +1327,6 @@ function App() {
               </div>
 
               <div className="space-y-4">
-                <ImportExportPanel
-                  onExportJson={handleExportJson}
-                  onExportCsv={handleExportCsv}
-                  onImportFile={handleImportFile}
-                  onResetData={handleResetData}
-                  labels={labels}
-                />
                 <ExpensePieChart
                   categories={activeMonth.categories}
                   currency={state.currency}
@@ -1261,9 +1334,9 @@ function App() {
                   labels={labels}
                 />
               </div>
-            </section>
+                </section>
 
-            <section className="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
+                <section className="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
               <div className="rounded-2xl border border-slate-700 bg-slate-900/80 p-4">
                 <h2 className="text-sm font-semibold text-slate-100">{labels.recurringBenefits}</h2>
                 <p className="mt-1 text-xs text-slate-400">
@@ -1407,84 +1480,128 @@ function App() {
                   labels={labels}
                 />
               </div>
+                </section>
+              </>
+            ) : null}
+
+            <section className="grid gap-4 lg:grid-cols-[1.1fr_1.3fr]">
+              <div className="rounded-2xl border border-slate-700 bg-slate-900/80 p-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm font-semibold text-slate-100">{labels.forecast}</h2>
+                  <label className="text-xs text-slate-400">
+                    {labels.months}
+                    <input
+                      type="number"
+                      min="1"
+                      max="12"
+                      value={state.forecastHorizon}
+                      onChange={(event) =>
+                        dispatch({
+                          type: 'SET_FORECAST_HORIZON',
+                          payload: event.target.value,
+                        })
+                      }
+                      className="ml-2 w-14 rounded-md border border-slate-600 bg-slate-900 px-2 py-1 text-slate-100"
+                    />
+                  </label>
+                </div>
+                <p className="mt-1 text-sm text-slate-400">
+                  {labels.forecastSub}
+                </p>
+
+                {hasForecastData ? (
+                  <div className="mt-3 overflow-x-auto">
+                    <table className="w-full min-w-[460px] text-sm">
+                      <thead>
+                        <tr className="border-b border-slate-700 text-left text-slate-400">
+                          <th className="py-2 pr-2">{labels.month}</th>
+                          <th className="py-2 pr-2">{labels.expectedIncome}</th>
+                          <th className="py-2 pr-2">{labels.expectedExpenses}</th>
+                          <th className="py-2">{labels.expectedRemaining} ({modeLabel})</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {displayForecastRows.map((month) => (
+                          <tr key={month.id} className="border-b border-slate-800/80">
+                            <td className="py-2 pr-2 text-slate-200">{month.label}</td>
+                            <td className="py-2 pr-2 text-slate-300">
+                              {formatCurrency(month.income, state.currency, selectedLocale)}
+                            </td>
+                            <td className="py-2 pr-2 text-slate-300">
+                              {formatCurrency(month.totalExpenses, state.currency, selectedLocale)}
+                            </td>
+                            <td
+                              className={`py-2 ${
+                                month.remaining >= 0 ? 'text-cyan-300' : 'text-rose-300'
+                              }`}
+                            >
+                              {formatCurrency(month.remaining, state.currency, selectedLocale)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="mt-3 rounded-lg border border-slate-700 bg-slate-950 p-3 text-sm text-slate-400">
+                    {labels.forecastEmpty}
+                  </p>
+                )}
+              </div>
+
+              <SavingsLineChart
+                actualRows={displayActualRows}
+                forecastRows={displayForecastRows}
+                currency={state.currency}
+                locale={selectedLocale}
+                labels={labels}
+              />
             </section>
           </>
-        ) : null}
-
-        <section className="grid gap-4 lg:grid-cols-[1.1fr_1.3fr]">
-          <div className="rounded-2xl border border-slate-700 bg-slate-900/80 p-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-slate-100">{labels.forecast}</h2>
-              <label className="text-xs text-slate-400">
-                {labels.months}
-                <input
-                  type="number"
-                  min="1"
-                  max="12"
-                  value={state.forecastHorizon}
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'SET_FORECAST_HORIZON',
-                      payload: event.target.value,
-                    })
-                  }
-                  className="ml-2 w-14 rounded-md border border-slate-600 bg-slate-900 px-2 py-1 text-slate-100"
-                />
-              </label>
+        ) : (
+          <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-2xl border border-slate-700 bg-slate-900/80 p-4">
+              <h2 className="text-sm font-semibold text-slate-100">{labels.dataManagementTitle}</h2>
+              <p className="mt-1 text-sm text-slate-400">{labels.dataManagementSub}</p>
             </div>
-            <p className="mt-1 text-sm text-slate-400">
-              {labels.forecastSub}
-            </p>
 
-            {hasForecastData ? (
-              <div className="mt-3 overflow-x-auto">
-                <table className="w-full min-w-[460px] text-sm">
-                  <thead>
-                    <tr className="border-b border-slate-700 text-left text-slate-400">
-                      <th className="py-2 pr-2">{labels.month}</th>
-                      <th className="py-2 pr-2">{labels.expectedIncome}</th>
-                      <th className="py-2 pr-2">{labels.expectedExpenses}</th>
-                      <th className="py-2">{labels.expectedRemaining} ({modeLabel})</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {displayForecastRows.map((month) => (
-                      <tr key={month.id} className="border-b border-slate-800/80">
-                        <td className="py-2 pr-2 text-slate-200">{month.label}</td>
-                        <td className="py-2 pr-2 text-slate-300">
-                          {formatCurrency(month.income, state.currency, selectedLocale)}
-                        </td>
-                        <td className="py-2 pr-2 text-slate-300">
-                          {formatCurrency(month.totalExpenses, state.currency, selectedLocale)}
-                        </td>
-                        <td
-                          className={`py-2 ${
-                            month.remaining >= 0 ? 'text-cyan-300' : 'text-rose-300'
-                          }`}
-                        >
-                          {formatCurrency(month.remaining, state.currency, selectedLocale)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="mt-3 rounded-lg border border-slate-700 bg-slate-950 p-3 text-sm text-slate-400">
-                {labels.forecastEmpty}
-              </p>
-            )}
-          </div>
-
-          <SavingsLineChart
-            actualRows={displayActualRows}
-            forecastRows={displayForecastRows}
-            currency={state.currency}
-            locale={selectedLocale}
-            labels={labels}
-          />
-        </section>
+            <ImportExportPanel
+              onExportJson={handleExportJson}
+              onExportCsv={handleExportCsv}
+              onImportFile={handleImportFile}
+              onResetData={handleResetData}
+              labels={labels}
+            />
+          </section>
+        )}
       </div>
+
+      <ConfirmModal
+        open={confirmModal.open}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        labels={labels}
+        onCancel={() =>
+          setConfirmModal({
+            open: false,
+            title: '',
+            message: '',
+            onConfirm: null,
+          })
+        }
+        onConfirm={() => {
+          const action = confirmModal.onConfirm
+          setConfirmModal({
+            open: false,
+            title: '',
+            message: '',
+            onConfirm: null,
+          })
+          if (typeof action === 'function') {
+            action()
+          }
+        }}
+      />
     </main>
   )
 }

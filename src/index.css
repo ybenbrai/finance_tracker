@@ -4,9 +4,84 @@
   font-family: 'Manrope', 'Space Grotesk', 'Segoe UI', sans-serif;
   color: #f8fafc;
   background: #020617;
+  --bg-main: 2 6 23;
+  --surface-900: 15 23 42;
+  --surface-800: 30 41 59;
+  --surface-700: 51 65 85;
+  --surface-600: 71 85 105;
+  --text-100: 248 250 252;
+  --text-300: 203 213 225;
+  --text-400: 148 163 184;
+  --accent-500: 99 102 241;
+  --accent-400: 129 140 248;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html[data-theme='midnight'] {
+  --bg-main: 2 6 23;
+  --surface-900: 15 23 42;
+  --surface-800: 30 41 59;
+  --surface-700: 51 65 85;
+  --surface-600: 71 85 105;
+  --text-100: 248 250 252;
+  --text-300: 203 213 225;
+  --text-400: 148 163 184;
+  --accent-500: 99 102 241;
+  --accent-400: 129 140 248;
+}
+
+html[data-theme='ocean'] {
+  --bg-main: 3 18 32;
+  --surface-900: 8 35 56;
+  --surface-800: 15 58 87;
+  --surface-700: 30 88 124;
+  --surface-600: 58 120 152;
+  --text-100: 241 249 255;
+  --text-300: 186 230 253;
+  --text-400: 125 211 252;
+  --accent-500: 14 165 233;
+  --accent-400: 56 189 248;
+}
+
+html[data-theme='forest'] {
+  --bg-main: 5 19 10;
+  --surface-900: 20 38 25;
+  --surface-800: 34 57 40;
+  --surface-700: 52 83 61;
+  --surface-600: 74 111 84;
+  --text-100: 240 253 244;
+  --text-300: 187 247 208;
+  --text-400: 134 239 172;
+  --accent-500: 34 197 94;
+  --accent-400: 74 222 128;
+}
+
+html[data-theme='sunset'] {
+  --bg-main: 28 12 10;
+  --surface-900: 57 23 20;
+  --surface-800: 88 36 32;
+  --surface-700: 124 58 53;
+  --surface-600: 161 86 76;
+  --text-100: 255 247 237;
+  --text-300: 254 215 170;
+  --text-400: 253 186 116;
+  --accent-500: 249 115 22;
+  --accent-400: 251 146 60;
+}
+
+html[data-theme='graphite'] {
+  --bg-main: 10 10 11;
+  --surface-900: 24 24 27;
+  --surface-800: 39 39 42;
+  --surface-700: 63 63 70;
+  --surface-600: 82 82 91;
+  --text-100: 250 250 250;
+  --text-300: 212 212 216;
+  --text-400: 161 161 170;
+  --accent-500: 168 85 247;
+  --accent-400: 192 132 252;
 }
 
 * {
@@ -21,6 +96,91 @@ body,
 
 body {
   margin: 0;
+  color: rgb(var(--text-100));
+  background: radial-gradient(1000px 500px at 0% -10%, rgb(var(--accent-500) / 0.22), transparent 60%),
+    radial-gradient(1200px 600px at 100% 120%, rgb(var(--accent-400) / 0.2), transparent 62%),
+    rgb(var(--bg-main));
+}
+
+/* Theme bridge for common Tailwind utility colors used in components. */
+.bg-slate-950 {
+  background-color: rgb(var(--bg-main)) !important;
+}
+
+.bg-slate-900,
+.bg-slate-900\/80,
+.bg-slate-900\/70,
+.bg-slate-900\/60,
+.bg-slate-900\/40 {
+  background-color: rgb(var(--surface-900) / 0.82) !important;
+}
+
+.bg-slate-800 {
+  background-color: rgb(var(--surface-800)) !important;
+}
+
+.hover\:bg-slate-800:hover,
+.hover\:bg-slate-700:hover {
+  background-color: rgb(var(--surface-700)) !important;
+}
+
+.border-slate-700,
+.border-slate-700\/80,
+.border-slate-700\/70,
+.border-slate-800,
+.border-slate-800\/80,
+.border-slate-600 {
+  border-color: rgb(var(--surface-700)) !important;
+}
+
+.text-slate-100,
+.text-slate-50 {
+  color: rgb(var(--text-100)) !important;
+}
+
+.text-slate-200,
+.text-slate-300 {
+  color: rgb(var(--text-300)) !important;
+}
+
+.text-slate-400,
+.text-slate-500 {
+  color: rgb(var(--text-400)) !important;
+}
+
+.bg-indigo-500,
+.bg-indigo-500\/20,
+.bg-indigo-500\/15,
+.bg-indigo-500\/10 {
+  background-color: rgb(var(--accent-500) / 0.85) !important;
+}
+
+.text-indigo-50,
+.text-indigo-200,
+.text-indigo-300 {
+  color: rgb(var(--text-100)) !important;
+}
+
+.border-indigo-400,
+.border-indigo-400\/70,
+.border-indigo-400\/60,
+.border-indigo-400\/30 {
+  border-color: rgb(var(--accent-400)) !important;
+}
+
+.hover\:bg-indigo-400:hover,
+.hover\:bg-indigo-500\/15:hover {
+  background-color: rgb(var(--accent-400) / 0.7) !important;
+}
+
+.app-header-card {
+  background:
+    linear-gradient(
+      135deg,
+      rgb(var(--surface-900) / 0.95) 0%,
+      rgb(var(--surface-800) / 0.92) 52%,
+      rgb(var(--accent-500) / 0.24) 100%
+    );
 }
 
 button,
