@@ -7,7 +7,7 @@ import {
 } from 'recharts'
 import { formatCurrency, toNumber } from '../../utils/format'
 
-const COLORS = ['#7dd3fc', '#a5b4fc', '#93c5fd', '#67e8f9', '#c4b5fd', '#86efac', '#f9a8d4', '#fcd34d']
+const COLORS = ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', '#EDC948', '#B07AA1', '#FF9DA7', '#9C755F', '#BAB0AC']
 
 function toLabel(value) {
   return String(value)
