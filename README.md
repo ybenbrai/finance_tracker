@@ -1,111 +1,99 @@
-# Smart Finance Tracker
+<div align="center">
+  <img src="/vite.svg" width="96" height="96" alt="Finance logo" />
+  <h1 align="center">Smart Finance Tracker 💰</h1>
+  <p align="center">
+    <strong>Personal finance tracking app — like a smart spreadsheet</strong>
+    <br />
+    Track income &amp; expenses by month, visualize trends, and forecast future months
+  </p>
+  <p align="center">
+    <a href="https://ybenbrai.github.io/finance_tracker/">Live Demo</a>
+    ·
+    <a href="https://github.com/ybenbrai/finance_tracker/issues">Report Bug</a>
+  </p>
+</div>
 
-A modern personal finance web app built with React, Vite, Tailwind CSS, and Recharts.
+<br />
 
-It works like a smart spreadsheet: you track income and expenses by month, get automatic totals, visualize trends, forecast future months, and keep everything saved locally in your browser.
+## ✨ Features
 
-## Highlights
+| | |
+|---|---|
+| 📅 **Monthly tabs** | Add, duplicate, and delete months with ease |
+| 🏷️ **Category tracking** | Editable labels and icons for every expense category |
+| 🧮 **Auto calculations** | Total expenses, monthly remaining cash, cumulative savings |
+| 🔮 **Forecast engine** | Weighted average + trend adjustment for future months |
+| 💸 **Recurring benefits** | Tracked separately from cash savings |
+| 📊 **Interactive charts** | Pie chart (expenses), line chart (savings/benefits trends) |
+| 📁 **Import / Export** | JSON and CSV support |
+| 💱 **Currency switcher** | Switch between multiple currencies |
+| 🌍 **Multi-language** | English, Français, العربية, Español, Русский |
+| 📅 **Locale-aware** | Month names and number/currency formatting |
+| ↔️ **RTL support** | Arabic mirrored layout |
+| 📱 **Responsive** | Desktop and mobile ready |
 
-- Monthly tabs with add, duplicate, and delete actions
-- Category-based expense tracking with editable labels and icons
-- Automatic calculations:
-  - total expenses
-  - monthly remaining cash
-  - cumulative savings
-- Forecast engine (weighted average + trend adjustment)
-- Dedicated recurring benefits tracking (separate from cash savings)
-- Interactive charts:
-  - expense breakdown pie chart
-  - savings trend line chart
-  - benefits breakdown/trend charts
-- Import/Export support:
-  - JSON
-  - CSV
-- Local persistence via browser localStorage
-- Currency switcher
-- Multi-language UI: English, French, Arabic, Spanish, Russian
-- Locale-aware month and number/currency formatting
-- RTL support for Arabic (mirrored layout behavior)
-- Responsive design for desktop and mobile
+## 🛠️ Tech Stack
 
-## Tech Stack
+| | |
+|---|---|
+| **Framework** | [React 19](https://react.dev/) |
+| **Build tool** | [Vite 7](https://vitejs.dev/) |
+| **Styling** | [Tailwind CSS v4](https://tailwindcss.com/) |
+| **Charts** | [Recharts](https://recharts.org/) |
+| **Linting** | [ESLint](https://eslint.org/) |
+| **Package manager** | [npm](https://www.npmjs.com/) |
 
-- React
-- Vite
-- Tailwind CSS
-- Recharts
-- ESLint
+## 🚀 Getting Started
 
-## Getting Started
+### Prerequisites
 
-### 1. Install dependencies
+- Node.js 20+
+
+### Install & Run
 
 ```bash
 npm install
+npm run dev        # http://localhost:5173
 ```
 
-### 2. Run in development
-
-```bash
-npm run dev
-```
-
-Open the local URL shown in your terminal (usually `http://localhost:5173`).
-
-### 3. Build for production
+### Production Build
 
 ```bash
 npm run build
-```
-
-### 4. Preview production build
-
-```bash
 npm run preview
 ```
 
-## Project Structure
+## 📁 Project Structure
 
-```text
+```
 src/
-  components/
-    charts/
-  utils/
-  App.jsx
-  i18n.js
+├── components/       # React components (tabs, cards, charts, modals, panels)
+│   └── charts/       # Recharts chart components
+├── utils/            # Date helpers, forecast engine, formatting utilities
+├── assets/           # Static assets
+├── App.jsx           # Root component
+├── constants.js      # App-wide constants
+├── i18n.js           # Multi-language setup
+├── index.css         # Tailwind entry point
+└── main.jsx          # App entry point
 ```
 
-## Data and Persistence
+## 💾 Data & Persistence
 
-- App state is persisted in `localStorage`.
-- You can back up and restore data using JSON/CSV import-export.
+- All data is persisted in **browser `localStorage`** — no server required.
+- Back up or transfer your data using **JSON / CSV import-export**.
 
-## Notes
+## ⚠️ Notes
 
 - Benefits balances are intentionally tracked separately from cash savings.
 - Forecast output depends on historical data quality and should be treated as an estimate, not financial advice.
 
-## Scripts
+## 🌐 Deploy on GitHub Pages
 
-- `npm run dev` - Start development server
-- `npm run build` - Build production bundle
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+This project includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` that automatically deploys to GitHub Pages on every push to `main`.
 
-## Deployment (GitHub Pages)
+Ensure the repo settings have `Source` set to `GitHub Actions` under **Settings → Pages**.
 
-This project is configured to deploy automatically to GitHub Pages whenever you push to `main`.
-
-Expected live URL:
-
-`https://ybenbrai.github.io/finance_tracker/`
-
-One-time setup in GitHub repository settings:
-
-1. Open `Settings` -> `Pages`.
-2. Under `Build and deployment`, set `Source` to `GitHub Actions`.
-3. Push to `main` (or re-run the `Deploy to GitHub Pages` workflow in the Actions tab).
-
-## License
+## 📄 License
 
 MIT
