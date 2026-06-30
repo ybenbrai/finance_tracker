@@ -66,16 +66,21 @@ npm run preview
 ## 📁 Project Structure
 
 ```
-src/
-├── components/       # React components (tabs, cards, charts, modals, panels)
-│   └── charts/       # Recharts chart components
-├── utils/            # Date helpers, forecast engine, formatting utilities
-├── assets/           # Static assets
-├── App.jsx           # Root component
-├── constants.js      # App-wide constants
-├── i18n.js           # Multi-language setup
-├── index.css         # Tailwind entry point
-└── main.jsx          # App entry point
+├── .github/
+│   └── workflows/    # GitHub Actions (deploy-pages.yml)
+├── src/
+│   ├── components/   # React components (tabs, cards, charts, modals, panels)
+│   │   └── charts/   # Recharts chart components
+│   ├── utils/        # Date helpers, forecast engine, formatting utilities
+│   ├── assets/       # Static assets
+│   ├── App.jsx       # Root component
+│   ├── constants.js  # App-wide constants
+│   ├── i18n.js       # Multi-language setup
+│   ├── index.css     # Tailwind entry point
+│   └── main.jsx      # App entry point
+├── public/           # Static assets served at root
+├── vite.config.js
+└── eslint.config.js
 ```
 
 ## 💾 Data & Persistence
